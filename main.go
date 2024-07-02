@@ -10,10 +10,10 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 
-	"github.com/your-username/youtube-backend/config"
-	"github.com/your-username/youtube-backend/database"
-	"github.com/your-username/youtube-backend/middleware"
-	"github.com/your-username/youtube-backend/routes"
+	"github.com/FuseWorkflows/fuse-go-server/config"
+	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/middleware"
+	"github.com/FuseWorkflows/fuse-go-server/routes"
 )
 
 func main() {

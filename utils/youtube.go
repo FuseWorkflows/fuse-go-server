@@ -9,7 +9,7 @@ import (
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/youtube/v3"
 
-	"github.com/your-username/youtube-backend/models"
+	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
 // UploadVideoToYouTube uploads a video to YouTube

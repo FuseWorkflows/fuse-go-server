@@ -9,9 +9,9 @@ import (
 	"github.com/go-chi/render"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/your-username/youtube-backend/config"
-	"github.com/your-username/youtube-backend/database"
-	"github.com/your-username/youtube-backend/models"
+	"github.com/FuseWorkflows/fuse-go-server/config"
+	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
 // SignupHandler handles user signup

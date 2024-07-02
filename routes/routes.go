@@ -3,9 +3,9 @@ package routes
 import (
 	"github.com/go-chi/chi/v5"
 
-	"github.com/your-username/youtube-backend/config"
-	"github.com/your-username/youtube-backend/database"
-	"github.com/your-username/youtube-backend/handlers"
+	"github.com/FuseWorkflows/fuse-go-server/config"
+	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/handlers"
 )
 
 func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {

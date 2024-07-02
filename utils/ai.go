@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/your-username/youtube-backend/config"
-	"github.com/your-username/youtube-backend/models"
+	"github.com/FuseWorkflows/fuse-go-server/config"
+	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
 // GetAISuggestions retrieves AI suggestions for video metadata

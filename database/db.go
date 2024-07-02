@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/FuseWorkflows/fuse-go-server/models"
 	_ "github.com/lib/pq" // postgres driver
-	"github.com/your-username/youtube-backend/models"
 )
 
 var ErrNotFound = errors.New("resource not found")

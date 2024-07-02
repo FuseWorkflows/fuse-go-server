@@ -10,8 +10,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/render"
 
-	"github.com/your-username/youtube-backend/database"
-	"github.com/your-username/youtube-backend/models"
+	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
 // Auth middleware for JWT authentication

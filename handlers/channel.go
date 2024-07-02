@@ -8,8 +8,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 
-	"github.com/your-username/youtube-backend/database"
-	"github.com/your-username/youtube-backend/models"
+	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
 // GetChannelHandler retrieves a list of channels
