@@ -1,0 +1,8 @@
+CREATE TABLE channels (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(255) NOT NULL,
+  api_key TEXT NOT NULL,
+  owner_id UUID NOT NULL REFERENCES users(id),
+  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+);
