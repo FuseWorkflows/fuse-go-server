@@ -46,13 +46,22 @@ func SignupHandler(db *database.DB) http.HandlerFunc {
 	}
 }
 
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func (l *LoginRequest) Bind(r *http.Request) error {
+	if l.Email == "" || l.Password == "" {
+		return errors.New("missing required fields")
+	}
+	return nil
+}
+
 // LoginHandler handles user login
 func LoginHandler(db *database.DB, cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var loginRequest struct {
-			Email    string `json:"email"`
-			Password string `json:"password"`
-		}
+		var loginRequest LoginRequest
 
 		if err := render.Bind(r, &loginRequest); err != nil {
 			render.Status(r, http.StatusBadRequest)

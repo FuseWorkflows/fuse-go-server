@@ -207,10 +207,14 @@ func (db *DB) GetChannelByID(channelID string) (*models.Channel, error) {
 		return nil, fmt.Errorf("error fetching channel: %w", err)
 	}
 
-	channel.Owner, err = db.GetUserByID(channel.Owner.ID)
+	// Fetch the owner data using the owner ID
+	owner, err := db.GetUserByID(channel.Owner.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching owner: %w", err)
 	}
+
+	// Assign the fetched owner to the channel
+	channel.Owner = *owner // Dereference the owner pointer
 
 	channel.Videos, err = db.GetVideosByChannel(channelID)
 	if err != nil {
@@ -242,7 +246,15 @@ func (db *DB) GetChannelsByUser(userID string) ([]models.Channel, error) {
 			return nil, fmt.Errorf("error scanning channel: %w", err)
 		}
 
-		channel.Owner, err = db.GetUserByID(channel.Owner.ID)
+		// Fetch the owner data using the owner ID
+		owner, err := db.GetUserByID(channel.Owner.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching owner: %w", err)
+		}
+
+		// Assign the fetched owner to the channel
+		channel.Owner = *owner // Dereference the owner pointer
+
 		if err != nil {
 			return nil, fmt.Errorf("error fetching owner: %w", err)
 		}
@@ -342,7 +354,15 @@ func (db *DB) GetVideoByID(videoID string) (*models.Video, error) {
 		return nil, fmt.Errorf("error fetching video: %w", err)
 	}
 
-	video.Channel, err = db.GetChannelByID(video.Channel.ID)
+	// Fetch the channel data using the channel ID
+	channel, err := db.GetChannelByID(video.Channel.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching channel: %w", err)
+	}
+
+	// Assign the fetched channel to the video
+	video.Channel = *channel // Dereference the channel pointer
+
 	if err != nil {
 		return nil, fmt.Errorf("error fetching channel: %w", err)
 	}
@@ -387,7 +407,15 @@ func (db *DB) GetVideosByUser(userID string) ([]models.Video, error) {
 			return nil, fmt.Errorf("error scanning video: %w", err)
 		}
 
-		video.Channel, err = db.GetChannelByID(video.Channel.ID)
+		// Fetch the channel data using the channel ID
+		channel, err := db.GetChannelByID(video.Channel.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching channel: %w", err)
+		}
+
+		// Assign the fetched channel to the video
+		video.Channel = *channel // Dereference the channel pointer
+
 		if err != nil {
 			return nil, fmt.Errorf("error fetching channel: %w", err)
 		}
@@ -439,7 +467,14 @@ func (db *DB) GetVideosByChannel(channelID string) ([]models.Video, error) {
 			return nil, fmt.Errorf("error scanning video: %w", err)
 		}
 
-		video.Channel, err = db.GetChannelByID(video.Channel.ID)
+		// Fetch the channel data using the channel ID
+		channel, err := db.GetChannelByID(video.Channel.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching channel: %w", err)
+		}
+
+		// Assign the fetched channel to the video
+		video.Channel = *channel // Dereference the channel pointer
 		if err != nil {
 			return nil, fmt.Errorf("error fetching channel: %w", err)
 		}
@@ -564,7 +599,15 @@ func (db *DB) GetIterationByID(iterationID string) (*models.Iteration, error) {
 		return nil, fmt.Errorf("error fetching iteration: %w", err)
 	}
 
-	iteration.Video, err = db.GetVideoByID(iteration.Video.ID)
+	// Fetch the channel data using the channel ID
+	video, err := db.GetVideoByID(iteration.Video.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching video: %w", err)
+	}
+
+	// Assign the fetched channel to the video
+	iteration.Video = *video // Dereference the channel pointer
+
 	if err != nil {
 		return nil, fmt.Errorf("error fetching video: %w", err)
 	}
@@ -596,7 +639,15 @@ func (db *DB) GetIterations() ([]models.Iteration, error) {
 			return nil, fmt.Errorf("error scanning iteration: %w", err)
 		}
 
-		iteration.Video, err = db.GetVideoByID(iteration.Video.ID)
+		// Fetch the channel data using the channel ID
+		video, err := db.GetVideoByID(iteration.Video.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching video: %w", err)
+		}
+
+		// Assign the fetched channel to the video
+		iteration.Video = *video // Dereference the channel pointer
+
 		if err != nil {
 			return nil, fmt.Errorf("error fetching video: %w", err)
 		}
@@ -635,7 +686,15 @@ func (db *DB) GetIterationsByVideo(videoID string) ([]models.Iteration, error) {
 			return nil, fmt.Errorf("error scanning iteration: %w", err)
 		}
 
-		iteration.Video, err = db.GetVideoByID(iteration.Video.ID)
+		// Fetch the channel data using the channel ID
+		video, err := db.GetVideoByID(iteration.Video.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error fetching video: %w", err)
+		}
+
+		// Assign the fetched channel to the video
+		iteration.Video = *video // Dereference the channel pointer
+
 		if err != nil {
 			return nil, fmt.Errorf("error fetching video: %w", err)
 		}

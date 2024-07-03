@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -143,13 +144,13 @@ func AddNoteToIterationHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		var note models.Note
-		if err := render.Bind(r, ¬e); err != nil {
+		if err := render.Bind(r, &note); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid note data"})
 			return
 		}
 
-		err := db.AddNoteToIteration(iterationID, ¬e)
+		err := db.AddNoteToIteration(iterationID, &note)
 		if err != nil {
 			if errors.Is(err, database.ErrNotFound) {
 				render.Status(r, http.StatusNotFound)

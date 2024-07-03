@@ -12,7 +12,7 @@ import (
 
 	"github.com/FuseWorkflows/fuse-go-server/config"
 	"github.com/FuseWorkflows/fuse-go-server/database"
-	"github.com/FuseWorkflows/fuse-go-server/middleware"
+	customMiddleware "github.com/FuseWorkflows/fuse-go-server/middleware"
 	"github.com/FuseWorkflows/fuse-go-server/routes"
 )
 
@@ -57,7 +57,7 @@ func main() {
 	r.Use(corsCfg.Handler)
 
 	// Authentication middleware
-	r.Use(middleware.Auth(db, cfg.JWTKey))
+	r.Use(customMiddleware.Auth(db, cfg.JWTKey))
 
 	// Routes
 	routes.InitRoutes(r, db, cfg)
