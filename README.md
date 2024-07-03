@@ -40,8 +40,7 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 │   ├── iteration.go
 │   ├── user.go
 │   ├── video.go
-│   ├── note.go
-│   └── config.go
+│   └── note.go
 ├── database
 │   ├── migrations
 │   │   ├── 1_init.up.sql
@@ -120,6 +119,6 @@ The AI service used in this project is a placeholder. You need to replace the `A
 
 Contributions are welcome! Please submit pull requests for any improvements or bug fixes.
 
-### License
+<!-- ### License -->
 
-This project is licensed under the [MIT License](LICENSE).
+<!-- This project is licensed under the [MIT License](LICENSE). -->
