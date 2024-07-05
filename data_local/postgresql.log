@@ -100,3 +100,10 @@
 2024-07-05 16:47:13.351 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.411 s, sync=0.002 s, total=0.417 s; sync files=5, longest=0.001 s, average=0.001 s; distance=4 kB, estimate=1431 kB; lsn=0/1DFA9B0, redo lsn=0/1DFA978
 2024-07-05 16:52:12.285 IST [61854] LOG:  checkpoint starting: time
 2024-07-05 16:52:12.703 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.410 s, sync=0.001 s, total=0.419 s; sync files=5, longest=0.001 s, average=0.001 s; distance=5 kB, estimate=1288 kB; lsn=0/1DFBE60, redo lsn=0/1DFBE28
+2024-07-05 16:55:46.910 IST [61853] LOG:  received fast shutdown request
+2024-07-05 16:55:46.910 IST [61853] LOG:  aborting any active transactions
+2024-07-05 16:55:46.914 IST [61853] LOG:  background worker "logical replication launcher" (PID 61859) exited with exit code 1
+2024-07-05 16:55:46.914 IST [61854] LOG:  shutting down
+2024-07-05 16:55:46.915 IST [61854] LOG:  checkpoint starting: shutdown immediate
+2024-07-05 16:55:46.920 IST [61854] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.007 s; sync files=6, longest=0.001 s, average=0.001 s; distance=5 kB, estimate=1160 kB; lsn=0/1DFD4F0, redo lsn=0/1DFD4F0
+2024-07-05 16:55:46.928 IST [61853] LOG:  database system is shut down
