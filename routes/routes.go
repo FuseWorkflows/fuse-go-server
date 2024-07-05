@@ -9,6 +9,7 @@ import (
 )
 
 func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
+
 	// Authentication routes
 	r.Route("/auth", func(r chi.Router) {
 		r.Post("/signup", handlers.SignupHandler(db))

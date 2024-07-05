@@ -1,0 +1,102 @@
+2024-07-05 13:05:32.605 IST [61555] LOG:  starting PostgreSQL 16.2 (Postgres.app) on aarch64-apple-darwin21.6.0, compiled by Apple clang version 14.0.0 (clang-1400.0.29.102), 64-bit
+2024-07-05 13:05:32.607 IST [61555] LOG:  listening on IPv6 address "::1", port 8000
+2024-07-05 13:05:32.607 IST [61555] LOG:  listening on IPv4 address "127.0.0.1", port 8000
+2024-07-05 13:05:32.607 IST [61555] LOG:  listening on Unix socket "/tmp/.s.PGSQL.8000"
+2024-07-05 13:05:32.610 IST [61558] LOG:  database system was shut down at 2024-07-05 13:05:32 IST
+2024-07-05 13:05:32.612 IST [61555] LOG:  database system is ready to accept connections
+2024-07-05 13:06:35.214 IST [61556] LOG:  checkpoint starting: immediate force wait
+2024-07-05 13:06:35.221 IST [61556] LOG:  checkpoint complete: wrote 16 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.002 s, total=0.007 s; sync files=13, longest=0.001 s, average=0.001 s; distance=4317 kB, estimate=4317 kB; lsn=0/193DF00, redo lsn=0/193DEC8
+2024-07-05 13:06:35.335 IST [61613] LOG:  could not receive data from client: Connection reset by peer
+2024-07-05 13:06:56.597 IST [61620] FATAL:  database "jainakin" does not exist
+2024-07-05 13:06:56.664 IST [61626] FATAL:  database "jainakin" does not exist
+2024-07-05 13:06:56.685 IST [61630] FATAL:  database "jainakin" does not exist
+2024-07-05 13:06:57.756 IST [61645] FATAL:  database "jainakin" does not exist
+2024-07-05 13:07:13.223 IST [61653] FATAL:  database "jainakin" does not exist
+2024-07-05 13:07:18.786 IST [61657] FATAL:  database "jainakin" does not exist
+2024-07-05 13:07:36.640 IST [61666] FATAL:  database "jainakin" does not exist
+2024-07-05 13:09:18.631 IST [61740] FATAL:  database "jainakin" does not exist
+2024-07-05 13:09:46.540 IST [61555] LOG:  received fast shutdown request
+2024-07-05 13:09:46.540 IST [61555] LOG:  aborting any active transactions
+2024-07-05 13:09:46.542 IST [61555] LOG:  background worker "logical replication launcher" (PID 61561) exited with exit code 1
+2024-07-05 13:09:46.542 IST [61556] LOG:  shutting down
+2024-07-05 13:09:46.543 IST [61556] LOG:  checkpoint starting: shutdown immediate
+2024-07-05 13:09:46.553 IST [61556] LOG:  checkpoint complete: wrote 45 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.002 s, total=0.011 s; sync files=12, longest=0.001 s, average=0.001 s; distance=269 kB, estimate=3912 kB; lsn=0/19813B8, redo lsn=0/19813B8
+2024-07-05 13:09:46.557 IST [61555] LOG:  database system is shut down
+2024-07-05 13:11:29.121 IST [61853] LOG:  starting PostgreSQL 16.3 (Postgres.app) on aarch64-apple-darwin21.6.0, compiled by Apple clang version 14.0.0 (clang-1400.0.29.102), 64-bit
+2024-07-05 13:11:29.124 IST [61853] LOG:  listening on IPv6 address "::1", port 8000
+2024-07-05 13:11:29.124 IST [61853] LOG:  listening on IPv4 address "127.0.0.1", port 8000
+2024-07-05 13:11:29.125 IST [61853] LOG:  listening on Unix socket "/tmp/.s.PGSQL.8000"
+2024-07-05 13:11:29.127 IST [61856] LOG:  database system was shut down at 2024-07-05 13:09:46 IST
+2024-07-05 13:11:29.131 IST [61853] LOG:  database system is ready to accept connections
+2024-07-05 13:11:29.291 IST [61861] FATAL:  database "jainakin" does not exist
+2024-07-05 13:16:29.125 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 13:16:29.136 IST [61854] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.013 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19814A0, redo lsn=0/1981468
+2024-07-05 13:17:45.898 IST [63930] FATAL:  database "Fuse" does not exist
+2024-07-05 13:20:50.781 IST [63981] FATAL:  database "Fuse" does not exist
+2024-07-05 13:21:40.756 IST [64006] FATAL:  database "jainakin" does not exist
+2024-07-05 13:21:40.832 IST [64011] FATAL:  database "jainakin" does not exist
+2024-07-05 13:21:40.856 IST [64015] FATAL:  database "jainakin" does not exist
+2024-07-05 13:21:41.960 IST [64019] FATAL:  database "jainakin" does not exist
+2024-07-05 13:22:06.192 IST [64041] FATAL:  database "jainakin" does not exist
+2024-07-05 13:22:23.753 IST [64074] FATAL:  database "jainakin" does not exist
+2024-07-05 13:26:29.126 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 13:28:06.780 IST [61854] LOG:  checkpoint complete: wrote 963 buffers (5.9%); 1 WAL file(s) added, 0 removed, 0 recycled; write=97.595 s, sync=0.015 s, total=97.655 s; sync files=359, longest=0.002 s, average=0.001 s; distance=4554 kB, estimate=4554 kB; lsn=0/1DF3F70, redo lsn=0/1DF3F38
+2024-07-05 13:42:17.753 IST [65698] FATAL:  Postgres.app rejected "trust" authentication
+2024-07-05 13:42:17.753 IST [65698] DETAIL:  auth_permission_dialog: unknown process is not allowed to connect without a password because system('/Applications/Postgres.app/Contents/MacOS/PostgresPermissionDialog' --server-addr ::1 --server-port 8000 --client-addr ::1 --client-port 53236 --client-pid 65697) returned with exit status 3. For more information see https://postgresapp.com/l/app-permissions/
+2024-07-05 13:42:17.753 IST [65698] HINT:  Change pg_hba.conf to require a password
+2024-07-05 14:56:29.705 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 14:56:30.527 IST [61854] LOG:  checkpoint complete: wrote 9 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.815 s, sync=0.001 s, total=0.822 s; sync files=6, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=4099 kB; lsn=0/1DF4358, redo lsn=0/1DF4320
+2024-07-05 15:01:29.522 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 15:01:29.941 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.410 s, sync=0.002 s, total=0.420 s; sync files=5, longest=0.001 s, average=0.001 s; distance=1 kB, estimate=3689 kB; lsn=0/1DF47C0, redo lsn=0/1DF4788
+2024-07-05 15:07:08.154 IST [72232] ERROR:  duplicate key value violates unique constraint "users_username_key"
+2024-07-05 15:07:08.154 IST [72232] DETAIL:  Key (username)=() already exists.
+2024-07-05 15:07:08.154 IST [72232] STATEMENT:  INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)
+2024-07-05 15:11:29.960 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 15:11:30.173 IST [61854] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.206 s, sync=0.001 s, total=0.213 s; sync files=3, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=3320 kB; lsn=0/1DF4BB8, redo lsn=0/1DF4B80
+2024-07-05 15:58:52.222 IST [77888] ERROR:  duplicate key value violates unique constraint "users_username_key"
+2024-07-05 15:58:52.222 IST [77888] DETAIL:  Key (username)=(Admin) already exists.
+2024-07-05 15:58:52.222 IST [77888] STATEMENT:  INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)
+2024-07-05 15:59:28.059 IST [77996] ERROR:  duplicate key value violates unique constraint "users_username_key"
+2024-07-05 15:59:28.059 IST [77996] DETAIL:  Key (username)=(Admin) already exists.
+2024-07-05 15:59:28.059 IST [77996] STATEMENT:  INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)
+2024-07-05 15:59:55.780 IST [78093] ERROR:  duplicate key value violates unique constraint "users_username_key"
+2024-07-05 15:59:55.780 IST [78093] DETAIL:  Key (username)=(Admin) already exists.
+2024-07-05 15:59:55.780 IST [78093] STATEMENT:  INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)
+2024-07-05 16:01:19.760 IST [78093] ERROR:  duplicate key value violates unique constraint "users_email_key"
+2024-07-05 16:01:19.760 IST [78093] DETAIL:  Key (email)=(test@fuse.com) already exists.
+2024-07-05 16:01:19.760 IST [78093] STATEMENT:  INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)
+2024-07-05 16:01:29.051 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:01:29.365 IST [61854] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.308 s, sync=0.002 s, total=0.317 s; sync files=4, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=2988 kB; lsn=0/1DF54E0, redo lsn=0/1DF54A8
+2024-07-05 16:06:29.358 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:06:29.775 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.410 s, sync=0.002 s, total=0.418 s; sync files=5, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=2690 kB; lsn=0/1DF5DC0, redo lsn=0/1DF5D88
+2024-07-05 16:16:29.814 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:16:30.435 IST [61854] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.614 s, sync=0.002 s, total=0.623 s; sync files=7, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=2421 kB; lsn=0/1DF67A8, redo lsn=0/1DF6770
+2024-07-05 16:27:12.256 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:27:12.673 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.411 s, sync=0.001 s, total=0.418 s; sync files=5, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=2179 kB; lsn=0/1DF7258, redo lsn=0/1DF7220
+2024-07-05 16:32:12.669 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:32:13.081 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.409 s, sync=0.001 s, total=0.413 s; sync files=5, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=1961 kB; lsn=0/1DF7DF8, redo lsn=0/1DF7DC0
+2024-07-05 16:33:06.566 IST [80689] ERROR:  INSERT has more target columns than expressions at character 51
+2024-07-05 16:33:06.566 IST [80689] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3, $4) RETURNING id
+2024-07-05 16:33:23.532 IST [80761] ERROR:  INSERT has more target columns than expressions at character 41
+2024-07-05 16:33:23.532 IST [80761] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3) RETURNING id
+2024-07-05 16:34:01.932 IST [80851] ERROR:  INSERT has more target columns than expressions at character 51
+2024-07-05 16:34:01.932 IST [80851] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3, $4) RETURNING id
+2024-07-05 16:36:19.386 IST [81146] ERROR:  INSERT has more target columns than expressions at character 51
+2024-07-05 16:36:19.386 IST [81146] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3, $4) RETURNING id
+2024-07-05 16:37:12.113 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:37:12.526 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.409 s, sync=0.001 s, total=0.414 s; sync files=5, longest=0.001 s, average=0.001 s; distance=3 kB, estimate=1765 kB; lsn=0/1DF8A90, redo lsn=0/1DF8A58
+2024-07-05 16:38:41.179 IST [81246] ERROR:  INSERT has more target columns than expressions at character 51
+2024-07-05 16:38:41.179 IST [81246] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3, $4) RETURNING id
+2024-07-05 16:39:33.763 IST [81321] ERROR:  INSERT has more target columns than expressions at character 41
+2024-07-05 16:39:33.763 IST [81321] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3) RETURNING id
+2024-07-05 16:39:34.835 IST [81321] ERROR:  INSERT has more target columns than expressions at character 41
+2024-07-05 16:39:34.835 IST [81321] STATEMENT:  INSERT INTO users (id, username, email, password, trial) VALUES ($1, $2, $3) RETURNING id
+2024-07-05 16:42:12.523 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:42:12.937 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.409 s, sync=0.002 s, total=0.415 s; sync files=5, longest=0.001 s, average=0.001 s; distance=3 kB, estimate=1589 kB; lsn=0/1DF9800, redo lsn=0/1DF97C8
+2024-07-05 16:43:08.959 IST [81750] ERROR:  duplicate key value violates unique constraint "users_username_key"
+2024-07-05 16:43:08.959 IST [81750] DETAIL:  Key (username)=(Test4) already exists.
+2024-07-05 16:43:08.959 IST [81750] STATEMENT:  INSERT INTO users (id, username, email, password) VALUES ($1, $2, $3, $4) RETURNING id
+2024-07-05 16:47:12.934 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:47:13.351 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.411 s, sync=0.002 s, total=0.417 s; sync files=5, longest=0.001 s, average=0.001 s; distance=4 kB, estimate=1431 kB; lsn=0/1DFA9B0, redo lsn=0/1DFA978
+2024-07-05 16:52:12.285 IST [61854] LOG:  checkpoint starting: time
+2024-07-05 16:52:12.703 IST [61854] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.410 s, sync=0.001 s, total=0.419 s; sync files=5, longest=0.001 s, average=0.001 s; distance=5 kB, estimate=1288 kB; lsn=0/1DFBE60, redo lsn=0/1DFBE28

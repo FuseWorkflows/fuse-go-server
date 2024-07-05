@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/FuseWorkflows/fuse-go-server/models"
+	"github.com/google/uuid"
 	_ "github.com/lib/pq" // postgres driver
 )
 
@@ -135,17 +136,17 @@ func (db *DB) GetUsers() ([]models.User, error) {
 // CreateUser creates a new user
 func (db *DB) CreateUser(user *models.User) (*models.User, error) {
 	ctx := context.Background()
-	result, err := db.ExecContext(ctx, "INSERT INTO users (username, email, password, tier, trial) VALUES ($1, $2, $3, $4, $5)",
-		user.Username, user.Email, user.Password, user.Tier, user.Trial)
+
+	// Generate a new UUID
+	user.ID = uuid.New().String()
+
+	// Insert the user with the generated UUID and return the ID for verification
+	err := db.QueryRowContext(ctx,
+		"INSERT INTO users (id, username, email, password) VALUES ($1, $2, $3, $4) RETURNING id",
+		user.ID, user.Username, user.Email, user.Password).Scan(&user.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error creating user: %w", err)
 	}
-
-	userID, err := result.LastInsertId()
-	if err != nil {
-		return nil, fmt.Errorf("error getting last insert ID: %w", err)
-	}
-	user.ID = fmt.Sprintf("%d", userID)
 
 	return user, nil
 }

@@ -18,6 +18,19 @@ import (
 func Auth(db *database.DB, jwtKey string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+			if r.URL.Path == "/auth/signup" {
+				// Skip authentication for signup
+				next.ServeHTTP(w, r)
+				return
+			}
+
+			if r.URL.Path == "/users/" {
+				// Skip authentication for signup
+				next.ServeHTTP(w, r)
+				return
+			}
+
 			authorizationHeader := r.Header.Get("Authorization")
 			if authorizationHeader == "" {
 				render.Status(r, http.StatusUnauthorized)
