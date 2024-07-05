@@ -11,6 +11,8 @@ type AISuggestions struct {
 	Keywords    []string `json:"keywords"`
 	Chapters    []string `json:"chapters"`
 	Thumbnail   string   `json:"thumbnail"`
+	// prompt
+	// seed
 }
 
 // Implement render.Binder for AISuggestions

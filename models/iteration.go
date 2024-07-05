@@ -14,6 +14,7 @@ type Iteration struct {
 	Notes     string          `json:"notes"`
 	CreatedAt string          `json:"createdAt"`
 	UpdatedAt string          `json:"updatedAt"`
+	//createdby  Editor
 }
 
 // Implement render.Binder for Iteration

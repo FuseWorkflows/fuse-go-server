@@ -15,6 +15,7 @@ type User struct {
 	Tier      Tier      `json:"tier"`
 	Trial     bool      `json:"trial"`
 	Channels  []Channel `json:"channels"`
+	// Editors []
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
