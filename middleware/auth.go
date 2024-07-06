@@ -15,18 +15,12 @@ import (
 )
 
 // Auth middleware for JWT authentication
-func Auth(db *database.DB, jwtKey string) func(http.Handler) http.Handler {
+func Auth(db *database.DB, jwtKey string, excludedRoutes []string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-			if r.URL.Path == "/auth/signup" {
-				// Skip authentication for signup
-				next.ServeHTTP(w, r)
-				return
-			}
-
-			if r.URL.Path == "/users/" {
-				// Skip authentication for signup
+			// Check if the route is excluded
+			if isExcludedRoute(r.URL.Path, excludedRoutes) {
 				next.ServeHTTP(w, r)
 				return
 			}
@@ -92,6 +86,16 @@ func Auth(db *database.DB, jwtKey string) func(http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		})
 	}
+}
+
+// Helper function to check if a route is excluded
+func isExcludedRoute(path string, excludedRoutes []string) bool {
+	for _, route := range excludedRoutes {
+		if path == route {
+			return true
+		}
+	}
+	return false
 }
 
 // GetUserIDFromContext retrieves the user ID from the request context

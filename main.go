@@ -57,7 +57,7 @@ func main() {
 	r.Use(corsCfg.Handler)
 
 	// Authentication middleware
-	r.Use(customMiddleware.Auth(db, cfg.JWTKey))
+	r.Use(customMiddleware.Auth(db, cfg.JWTKey, []string{"/auth/signup", "/auth/login"}))
 
 	// Routes
 	routes.InitRoutes(r, db, cfg)
