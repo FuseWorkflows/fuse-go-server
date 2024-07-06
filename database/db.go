@@ -364,10 +364,6 @@ func (db *DB) GetVideoByID(videoID string) (*models.Video, error) {
 	// Assign the fetched channel to the video
 	video.Channel = *channel // Dereference the channel pointer
 
-	if err != nil {
-		return nil, fmt.Errorf("error fetching channel: %w", err)
-	}
-
 	video.Iterations, err = db.GetIterationsByVideo(video.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching iterations: %w", err)
@@ -416,10 +412,6 @@ func (db *DB) GetVideosByUser(userID string) ([]models.Video, error) {
 
 		// Assign the fetched channel to the video
 		video.Channel = *channel // Dereference the channel pointer
-
-		if err != nil {
-			return nil, fmt.Errorf("error fetching channel: %w", err)
-		}
 
 		video.Iterations, err = db.GetIterationsByVideo(video.ID)
 		if err != nil {
@@ -476,9 +468,6 @@ func (db *DB) GetVideosByChannel(channelID string) ([]models.Video, error) {
 
 		// Assign the fetched channel to the video
 		video.Channel = *channel // Dereference the channel pointer
-		if err != nil {
-			return nil, fmt.Errorf("error fetching channel: %w", err)
-		}
 
 		video.Iterations, err = db.GetIterationsByVideo(video.ID)
 		if err != nil {
@@ -609,10 +598,6 @@ func (db *DB) GetIterationByID(iterationID string) (*models.Iteration, error) {
 	// Assign the fetched channel to the video
 	iteration.Video = *video // Dereference the channel pointer
 
-	if err != nil {
-		return nil, fmt.Errorf("error fetching video: %w", err)
-	}
-
 	return &iteration, nil
 }
 
@@ -648,10 +633,6 @@ func (db *DB) GetIterations() ([]models.Iteration, error) {
 
 		// Assign the fetched channel to the video
 		iteration.Video = *video // Dereference the channel pointer
-
-		if err != nil {
-			return nil, fmt.Errorf("error fetching video: %w", err)
-		}
 
 		iterations = append(iterations, iteration)
 	}
@@ -695,10 +676,6 @@ func (db *DB) GetIterationsByVideo(videoID string) ([]models.Iteration, error) {
 
 		// Assign the fetched channel to the video
 		iteration.Video = *video // Dereference the channel pointer
-
-		if err != nil {
-			return nil, fmt.Errorf("error fetching video: %w", err)
-		}
 
 		iterations = append(iterations, iteration)
 	}
