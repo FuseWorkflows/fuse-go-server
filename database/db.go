@@ -278,17 +278,16 @@ func (db *DB) GetChannelsByUser(userID string) ([]models.Channel, error) {
 // CreateChannel creates a new channel
 func (db *DB) CreateChannel(channel *models.Channel) (*models.Channel, error) {
 	ctx := context.Background()
-	result, err := db.ExecContext(ctx, "INSERT INTO channels (name, api_key, owner_id) VALUES ($1, $2, $3)",
-		channel.Name, channel.API_KEY, channel.Owner.ID)
+
+	// Generate a new UUID
+	channel.ID = uuid.New().String()
+
+	// Insert the channel with the generated UUID
+	err := db.QueryRowContext(ctx, "INSERT INTO channels (id, name, api_key, owner_id) VALUES ($1, $2, $3, $4) RETURNING id",
+		channel.ID, channel.Name, channel.API_KEY, channel.Owner.ID).Scan(&channel.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error creating channel: %w", err)
 	}
-
-	channelID, err := result.LastInsertId()
-	if err != nil {
-		return nil, fmt.Errorf("error getting last insert ID: %w", err)
-	}
-	channel.ID = fmt.Sprintf("%d", channelID)
 
 	return channel, nil
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 
@@ -44,7 +45,13 @@ func CreateChannelHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		var channel models.Channel
-		if err := render.Bind(r, &channel); err != nil {
+		// if err := render.Bind(r, &channel); err != nil {
+		// 	render.Status(r, http.StatusBadRequest)
+		// 	render.JSON(w, r, map[string]string{"error": "Invalid channel data"})
+		// 	return
+		// }
+
+		if err := json.NewDecoder(r.Body).Decode(&channel); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid channel data"})
 			return
