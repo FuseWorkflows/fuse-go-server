@@ -18,33 +18,33 @@ type User struct {
 	// Editors []
 }
 
-func (u *User) MarshalJSON() ([]byte, error) {
-	type UserAlias User
-	return json.Marshal(&struct {
-		*UserAlias
-		Channels []Channel `json:"channels"`
-	}{
-		UserAlias: (*UserAlias)(u),
-		Channels:  u.Channels,
-	})
-}
+// func (u *User) MarshalJSON() ([]byte, error) {
+// 	type UserAlias User
+// 	return json.Marshal(&struct {
+// 		*UserAlias
+// 		Channels []Channel `json:"channels"`
+// 	}{
+// 		UserAlias: (*UserAlias)(u),
+// 		Channels:  u.Channels,
+// 	})
+// }
 
-func (u *User) UnmarshalJSON(data []byte) error {
-	type UserAlias User
-	aux := &struct {
-		*UserAlias
-		Channels []Channel `json:"channels"`
-	}{
-		UserAlias: (*UserAlias)(u),
-	}
+// func (u *User) UnmarshalJSON(data []byte) error {
+// 	type UserAlias User
+// 	aux := &struct {
+// 		*UserAlias
+// 		Channels []Channel `json:"channels"`
+// 	}{
+// 		UserAlias: (*UserAlias)(u),
+// 	}
 
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
-	}
+// 	if err := json.Unmarshal(data, &aux); err != nil {
+// 		return err
+// 	}
 
-	u.Channels = aux.Channels
-	return nil
-}
+// 	u.Channels = aux.Channels
+// 	return nil
+// }
 
 func (u *User) Bind(r *http.Request) error {
 	// Decode the JSON body into a temporary struct that includes Channels

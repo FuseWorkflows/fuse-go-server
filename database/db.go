@@ -228,6 +228,13 @@ func (db *DB) GetChannelByID(channelID string) (*models.Channel, error) {
 // GetChannelsByUser retrieves channels by user ID
 func (db *DB) GetChannelsByUser(userID string) ([]models.Channel, error) {
 	var channels []models.Channel
+
+	// Fetch the owner data using the owner ID
+	owner, err := db.GetOwner(userID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching owner: %w", err)
+	}
+
 	rows, err := db.QueryContext(context.Background(), "SELECT * FROM channels WHERE owner_id = $1", userID)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching channels: %w", err)
@@ -245,12 +252,6 @@ func (db *DB) GetChannelsByUser(userID string) ([]models.Channel, error) {
 			&channel.UpdatedAt,
 		); err != nil {
 			return nil, fmt.Errorf("error scanning channel: %w", err)
-		}
-
-		// Fetch the owner data using the owner ID
-		owner, err := db.GetUserByID(channel.Owner.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error fetching owner: %w", err)
 		}
 
 		// Assign the fetched owner to the channel
@@ -938,4 +939,27 @@ func (db *DB) GetEditorsByVideo(videoID string) ([]models.Editor, error) {
 	}
 
 	return editors, nil
+}
+
+// GetOwner retrieves the owner of a video, channel, or iteration
+func (db *DB) GetOwner(userID string) (*models.User, error) {
+	var user models.User
+	err := db.QueryRowContext(context.Background(), "SELECT * FROM users WHERE id = $1", userID).Scan(
+		&user.ID,
+		&user.Username,
+		&user.Email,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+		&user.Tier,
+		&user.Trial,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNotFound
+		}
+		return nil, fmt.Errorf("error fetching user: %w", err)
+	}
+
+	return &user, nil
 }

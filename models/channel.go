@@ -15,33 +15,33 @@ type Channel struct {
 	UpdatedAt string  `json:"updatedAt"`
 }
 
-func (c *Channel) MarshalJSON() ([]byte, error) {
-	type ChannelAlias Channel
-	return json.Marshal(&struct {
-		*ChannelAlias
-		Owner *User `json:"owner"`
-	}{
-		ChannelAlias: (*ChannelAlias)(c),
-		Owner:        &c.Owner,
-	})
-}
+// func (c *Channel) MarshalJSON() ([]byte, error) {
+// 	type ChannelAlias Channel
+// 	return json.Marshal(&struct {
+// 		*ChannelAlias
+// 		Owner *User `json:"owner"`
+// 	}{
+// 		ChannelAlias: (*ChannelAlias)(c),
+// 		Owner:        &c.Owner,
+// 	})
+// }
 
-func (c *Channel) UnmarshalJSON(data []byte) error {
-	type ChannelAlias Channel
-	aux := &struct {
-		*ChannelAlias
-		Owner *User `json:"owner"`
-	}{
-		ChannelAlias: (*ChannelAlias)(c),
-	}
+// func (c *Channel) UnmarshalJSON(data []byte) error {
+// 	type ChannelAlias Channel
+// 	aux := &struct {
+// 		*ChannelAlias
+// 		Owner *User `json:"owner"`
+// 	}{
+// 		ChannelAlias: (*ChannelAlias)(c),
+// 	}
 
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
-	}
+// 	if err := json.Unmarshal(data, &aux); err != nil {
+// 		return err
+// 	}
 
-	c.Owner = *aux.Owner
-	return nil
-}
+// 	c.Owner = *aux.Owner
+// 	return nil
+// }
 
 // Implement render.Binder for Channel
 func (c *Channel) Bind(r *http.Request) error {

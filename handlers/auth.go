@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -39,7 +38,6 @@ func SignupHandler(db *database.DB) http.HandlerFunc {
 		// Create the user
 		createdUser, err := db.CreateUser(&user)
 		if err != nil {
-			fmt.Println(err.Error())
 			render.Status(r, http.StatusInternalServerError)
 			render.JSON(w, r, map[string]string{"error": "Failed to create user"})
 			return
