@@ -80,7 +80,10 @@ func Auth(db *database.DB, jwtKey string, excludedRoutes []string) func(http.Han
 			}
 
 			// Attach user to context
-			ctx := context.WithValue(r.Context(), "user", user)
+			type contextKey string
+			const userKey contextKey = "user"
+
+			ctx := context.WithValue(r.Context(), userKey, user)
 			r = r.WithContext(ctx)
 
 			next.ServeHTTP(w, r)
