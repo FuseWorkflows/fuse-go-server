@@ -148,7 +148,12 @@ func (db *DB) CreateUser(user *models.User) (*models.User, error) {
 		return nil, fmt.Errorf("error creating user: %w", err)
 	}
 
-	return user, nil
+	// Fetch the user before returning
+	createdUser, err := db.GetUserByID(user.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching user: %w", err)
+	}
+	return createdUser, nil
 }
 
 // UpdateUser updates an existing user
@@ -168,7 +173,12 @@ func (db *DB) UpdateUser(userID string, user *models.User) (*models.User, error)
 		return nil, ErrNotFound
 	}
 
-	return user, nil
+	// Fetch the user before returning
+	updatedUser, err := db.GetUserByID(userID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching user: %w", err)
+	}
+	return updatedUser, nil
 }
 
 // DeleteUser deletes an existing user
@@ -290,7 +300,12 @@ func (db *DB) CreateChannel(channel *models.Channel) (*models.Channel, error) {
 		return nil, fmt.Errorf("error creating channel: %w", err)
 	}
 
-	return channel, nil
+	// fecth the channel before returning
+	createdChannel, err := db.GetChannelByID(channel.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching channel: %w", err)
+	}
+	return createdChannel, nil
 }
 
 // UpdateChannel updates an existing channel
@@ -310,7 +325,12 @@ func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.
 		return nil, ErrNotFound
 	}
 
-	return channel, nil
+	// Fetch the channel before returning
+	updatedChannel, err := db.GetChannelByID(channelID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching channel: %w", err)
+	}
+	return updatedChannel, nil
 }
 
 // DeleteChannel deletes an existing channel

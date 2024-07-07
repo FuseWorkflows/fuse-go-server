@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -83,6 +84,8 @@ func LoginHandler(db *database.DB, cfg *config.Config) http.HandlerFunc {
 			render.JSON(w, r, map[string]string{"error": "Failed to find user"})
 			return
 		}
+
+		fmt.Println(user.Password, loginRequest.Password)
 
 		// Compare the password
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginRequest.Password))
