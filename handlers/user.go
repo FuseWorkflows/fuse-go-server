@@ -2,12 +2,14 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 
 	"github.com/FuseWorkflows/fuse-go-server/database"
+	"github.com/FuseWorkflows/fuse-go-server/middleware"
 	"github.com/FuseWorkflows/fuse-go-server/models"
 )
 
@@ -90,8 +92,41 @@ func DeleteUserHandler(db *database.DB) http.HandlerFunc {
 			return
 		}
 
-		err := db.DeleteUser(userID)
+		// Get the authenticated user's ID
+		currentUserID, err := middleware.GetUserIDFromContext(r)
 		if err != nil {
+			render.Status(r, http.StatusUnauthorized)
+			render.JSON(w, r, map[string]string{"error": "User not authenticated"})
+			return
+		}
+
+		// Check if the user is trying to delete their own account
+		if currentUserID != userID {
+			render.Status(r, http.StatusForbidden)
+			render.JSON(w, r, map[string]string{"error": "You are not authorized to delete this user"})
+			return
+		}
+
+		// Delete all channels owned by the user
+		channels, err := db.GetChannelsByUser(userID)
+		if err != nil {
+			render.Status(r, http.StatusInternalServerError)
+			render.JSON(w, r, map[string]string{"error": "Failed to fetch channels"})
+			return
+		}
+		for _, channel := range channels {
+			err = db.DeleteChannel(channel.ID)
+			if err != nil {
+				render.Status(r, http.StatusInternalServerError)
+				render.JSON(w, r, map[string]string{"error": "Failed to delete channels"})
+				return
+			}
+		}
+
+		// Delete the user
+		err = db.DeleteUser(userID)
+		if err != nil {
+			fmt.Println("Error deleting user", err)
 			if errors.Is(err, database.ErrNotFound) {
 				render.Status(r, http.StatusNotFound)
 				render.JSON(w, r, map[string]string{"error": "User not found"})
