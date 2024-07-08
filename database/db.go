@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/FuseWorkflows/fuse-go-server/models"
 	"github.com/google/uuid"
@@ -159,6 +160,7 @@ func (db *DB) CreateUser(user *models.User) (*models.User, error) {
 // UpdateUser updates an existing user
 func (db *DB) UpdateUser(userID string, user *models.User) (*models.User, error) {
 	ctx := context.Background()
+
 	result, err := db.ExecContext(ctx, "UPDATE users SET username = $1, email = $2, password = $3, tier = $4, trial = $5, updated_at = NOW() WHERE id = $6",
 		user.Username, user.Email, user.Password, user.Tier, user.Trial, userID)
 	if err != nil {
@@ -309,10 +311,54 @@ func (db *DB) CreateChannel(channel *models.Channel) (*models.Channel, error) {
 }
 
 // UpdateChannel updates an existing channel
+// func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.Channel, error) {
+// 	ctx := context.Background()
+// 	result, err := db.ExecContext(ctx, "UPDATE channels SET name = $1, api_key = $2, updated_at = NOW() WHERE id = $3",
+// 		channel.Name, channel.API_KEY, channelID)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error updating channel: %w", err)
+// 	}
+
+// 	rowsAffected, err := result.RowsAffected()
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error getting rows affected: %w", err)
+// 	}
+// 	if rowsAffected == 0 {
+// 		return nil, ErrNotFound
+// 	}
+
+// 	// Fetch the channel before returning
+// 	updatedChannel, err := db.GetChannelByID(channelID)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error fetching channel: %w", err)
+// 	}
+// 	return updatedChannel, nil
+// }
+
 func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.Channel, error) {
 	ctx := context.Background()
-	result, err := db.ExecContext(ctx, "UPDATE channels SET name = $1, api_key = $2, updated_at = NOW() WHERE id = $3",
-		channel.Name, channel.API_KEY, channelID)
+	query := "UPDATE channels SET"
+	params := []interface{}{}
+	paramCounter := 1
+
+	// Dynamically add fields to the query if they are not empty
+	if channel.Name != "" {
+		query += fmt.Sprintf(" name = $%d,", paramCounter)
+		params = append(params, channel.Name)
+		paramCounter++
+	}
+	if channel.API_KEY != "" {
+		query += fmt.Sprintf(" api_key = $%d,", paramCounter)
+		params = append(params, channel.API_KEY)
+		paramCounter++
+	}
+
+	// Remove trailing comma and add WHERE clause
+	query = strings.TrimSuffix(query, ",") + fmt.Sprintf(" WHERE id = $%d", paramCounter)
+	params = append(params, channelID)
+
+	// Execute the query
+	result, err := db.ExecContext(ctx, query, params...)
 	if err != nil {
 		return nil, fmt.Errorf("error updating channel: %w", err)
 	}
@@ -325,7 +371,7 @@ func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.
 		return nil, ErrNotFound
 	}
 
-	// Fetch the channel before returning
+	// Fetch the updated channel before returning
 	updatedChannel, err := db.GetChannelByID(channelID)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching channel: %w", err)
