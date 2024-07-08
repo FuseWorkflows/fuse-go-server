@@ -311,30 +311,6 @@ func (db *DB) CreateChannel(channel *models.Channel) (*models.Channel, error) {
 }
 
 // UpdateChannel updates an existing channel
-// func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.Channel, error) {
-// 	ctx := context.Background()
-// 	result, err := db.ExecContext(ctx, "UPDATE channels SET name = $1, api_key = $2, updated_at = NOW() WHERE id = $3",
-// 		channel.Name, channel.API_KEY, channelID)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error updating channel: %w", err)
-// 	}
-
-// 	rowsAffected, err := result.RowsAffected()
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error getting rows affected: %w", err)
-// 	}
-// 	if rowsAffected == 0 {
-// 		return nil, ErrNotFound
-// 	}
-
-// 	// Fetch the channel before returning
-// 	updatedChannel, err := db.GetChannelByID(channelID)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error fetching channel: %w", err)
-// 	}
-// 	return updatedChannel, nil
-// }
-
 func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.Channel, error) {
 	ctx := context.Background()
 	query := "UPDATE channels SET"

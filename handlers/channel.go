@@ -140,7 +140,34 @@ func DeleteChannelHandler(db *database.DB) http.HandlerFunc {
 			return
 		}
 
-		err := db.DeleteChannel(channelID)
+		// Get the authenticated user's ID
+		userID, err := middleware.GetUserIDFromContext(r)
+		if err != nil {
+			render.Status(r, http.StatusUnauthorized)
+			render.JSON(w, r, map[string]string{"error": "User not authenticated"})
+			return
+		}
+
+		// Check if the user owns the channel
+		channel, err := db.GetChannelByID(channelID)
+		if err != nil {
+			if errors.Is(err, database.ErrNotFound) {
+				render.Status(r, http.StatusNotFound)
+				render.JSON(w, r, map[string]string{"error": "Channel not found"})
+				return
+			}
+			render.Status(r, http.StatusInternalServerError)
+			render.JSON(w, r, map[string]string{"error": "Failed to fetch channel"})
+			return
+		}
+		if channel.Owner.ID != userID {
+			render.Status(r, http.StatusForbidden)
+			render.JSON(w, r, map[string]string{"error": "You are not authorized to delete this channel"})
+			return
+		}
+
+		// Delete the channel
+		err = db.DeleteChannel(channelID)
 		if err != nil {
 			if errors.Is(err, database.ErrNotFound) {
 				render.Status(r, http.StatusNotFound)
