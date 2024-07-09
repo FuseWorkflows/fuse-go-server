@@ -20,7 +20,7 @@ func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", handlers.GetUserHandler(db))
 		r.Post("/", handlers.CreateUserHandler(db))
-		r.Put("/{userID}", handlers.UpdateUserHandler(db))
+		r.Patch("/{userID}", handlers.UpdateUserHandler(db))
 		r.Delete("/{userID}", handlers.DeleteUserHandler(db))
 	})
 
@@ -29,7 +29,7 @@ func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
 		r.Get("/", handlers.GetChannelHandler(db))
 		r.Post("/", handlers.CreateChannelHandler(db))
 		r.Get("/{channelID}", handlers.GetChannelByIDHandler(db))
-		r.Put("/{channelID}", handlers.UpdateChannelHandler(db))
+		r.Patch("/{channelID}", handlers.UpdateChannelHandler(db))
 		r.Delete("/{channelID}", handlers.DeleteChannelHandler(db))
 	})
 
@@ -38,7 +38,7 @@ func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
 		r.Get("/", handlers.GetVideoHandler(db))
 		r.Post("/", handlers.CreateVideoHandler(db))
 		r.Get("/{videoID}", handlers.GetVideoByIDHandler(db))
-		r.Put("/{videoID}", handlers.UpdateVideoHandler(db))
+		r.Patch("/{videoID}", handlers.UpdateVideoHandler(db))
 		r.Delete("/{videoID}", handlers.DeleteVideoHandler(db))
 		r.Post("/{videoID}/upload", handlers.UploadVideoHandler(db, cfg))
 	})
@@ -48,7 +48,7 @@ func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
 		r.Get("/", handlers.GetIterationHandler(db))
 		r.Post("/", handlers.CreateIterationHandler(db))
 		r.Get("/{iterationID}", handlers.GetIterationByIDHandler(db))
-		r.Put("/{iterationID}", handlers.UpdateIterationHandler(db))
+		r.Patch("/{iterationID}", handlers.UpdateIterationHandler(db))
 		r.Delete("/{iterationID}", handlers.DeleteIterationHandler(db))
 		r.Post("/{iterationID}/notes", handlers.AddNoteToIterationHandler(db))
 	})
@@ -58,7 +58,7 @@ func InitRoutes(r *chi.Mux, db *database.DB, cfg *config.Config) {
 		r.Get("/", handlers.GetEditorHandler(db))
 		r.Post("/", handlers.CreateEditorHandler(db))
 		r.Get("/{editorID}", handlers.GetEditorByIDHandler(db))
-		r.Put("/{editorID}", handlers.UpdateEditorHandler(db))
+		r.Patch("/{editorID}", handlers.UpdateEditorHandler(db))
 		r.Delete("/{editorID}", handlers.DeleteEditorHandler(db))
 	})
 
