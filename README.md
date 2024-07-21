@@ -13,10 +13,10 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 
 - **Golang:** The backend is built using the Go programming language.
 - **Chi Router:** Used for handling HTTP requests and routing.
-- **PostgreSQL:**  Database for storing user, channel, video, iteration, and editor data.
-- **JWT Authentication:**  Implemented for secure user authentication and authorization.
-- **YouTube API:**  Integrated to automatically upload videos to YouTube channels.
-- **AI Service:**  Connects to an AI service (placeholder in the code) for generating metadata suggestions. 
+- **PostgreSQL:** Database for storing user, channel, video, iteration, and editor data.
+- **JWT Authentication:** Implemented for secure user authentication and authorization.
+- **YouTube API:** Integrated to automatically upload videos to YouTube channels.
+- **AI Service:** Connects to an AI service (placeholder in the code) for generating metadata suggestions.
 
 ### Project Structure
 
@@ -69,17 +69,20 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 ### Getting Started
 
 1. **Prerequisites:**
+
    - Go installed on your system (version 1.11 or later).
    - PostgreSQL installed and running.
    - A YouTube Data API key.
 
 2. **Clone the Repository:**
+
    ```bash
-   git clone https://github.com/your-username/youtube-backend.git
-   cd youtube-backend
+   git clone https://github.com/FuseWorkflows/fuse-go-server.git
+   cd fuse-go-server
    ```
 
 3. **Create a `.env` file:**
+
    - Create a `.env` file in the project root directory.
    - Add the following environment variables, replacing the placeholders with your actual values:
      ```
@@ -95,11 +98,12 @@ This project is a Golang backend for a platform designed to help YouTubers manag
      ```
 
 4. **Run Database Migrations:**
+
    - **(Replace with your chosen migration tool)**
    - Use a migration tool (e.g., `migrate`, `goose`) to create and apply the database migrations. For example, with `migrate`:
-      ```bash
-      migrate -database "postgres://your_database_user:your_database_password@your_database_host:your_database_port/your_database_name?sslmode=disable" -path database/migrations up
-      ```
+     ```bash
+     migrate -database "postgres://your_database_user:your_database_password@your_database_host:your_database_port/your_database_name?sslmode=disable" -path database/migrations up
+     ```
 
 5. **Build and Run the Server:**
    ```bash
@@ -109,7 +113,7 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 
 ### API Endpoints
 
-This project provides various API endpoints.  For detailed documentation of the endpoints, please refer to the comments within the `handlers` and `routes` packages.
+This project provides various API endpoints. For detailed documentation of the endpoints, please refer to the comments within the `handlers` and `routes` packages.
 
 ### AI Service
 
