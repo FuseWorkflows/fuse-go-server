@@ -84,6 +84,7 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 3. **Create a `.env` file:**
 
    - Copy the provided .env.template file:
+
      ```bash
      cp .env.template .env
      ```
@@ -104,9 +105,13 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 4. **Run Database Migrations:**
 
    - **(Replace with your chosen migration tool)**
+   - Make sure to load the environment variables before running the migration command:
+     ```bash
+     source .env
+     ```
    - Use a migration tool (e.g., `migrate`, `goose`) to create and apply the database migrations. For example, with `migrate`:
      ```bash
-     migrate -database "postgres://your_database_user:your_database_password@your_database_host:your_database_port/your_database_name?sslmode=disable" -path database/migrations up
+     migrate -database "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" -path database/migrations up
      ```
 
 5. **Build and Run the Server:**
