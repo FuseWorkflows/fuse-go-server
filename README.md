@@ -84,9 +84,9 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 3. **Create a `.env` file:**
 
    - Copy the provided .env.template file:
-   ```bash
-   cp .env.template .env
-   ```
+     ```bash
+     cp .env.template .env
+     ```
 
    - Open the .env file and replace the placeholder values with your actual configuration:
      ```
