@@ -10,6 +10,7 @@ import (
 
 	"github.com/FuseWorkflows/fuse-go-server/models"
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq" // postgres driver
 )
 
@@ -64,11 +65,6 @@ func (db *DB) GetUserByID(userID string) (*models.User, error) {
 		return nil, fmt.Errorf("error fetching user: %w", err)
 	}
 
-	user.Channels, err = db.GetChannelsByUser(userID)
-	if err != nil {
-		return nil, fmt.Errorf("error fetching channels: %w", err)
-	}
-
 	return &user, nil
 }
 
@@ -117,11 +113,6 @@ func (db *DB) GetUsers() ([]models.User, error) {
 			&user.Trial,
 		); err != nil {
 			return nil, fmt.Errorf("error scanning user: %w", err)
-		}
-
-		user.Channels, err = db.GetChannelsByUser(user.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error fetching channels: %w", err)
 		}
 
 		users = append(users, user)
@@ -229,11 +220,6 @@ func (db *DB) GetChannelByID(channelID string) (*models.Channel, error) {
 	// Assign the fetched owner to the channel
 	channel.Owner = *owner // Dereference the owner pointer
 
-	channel.Videos, err = db.GetVideosByChannel(channelID)
-	if err != nil {
-		return nil, fmt.Errorf("error fetching videos: %w", err)
-	}
-
 	return &channel, nil
 }
 
@@ -271,11 +257,6 @@ func (db *DB) GetChannelsByUser(userID string) ([]models.Channel, error) {
 
 		if err != nil {
 			return nil, fmt.Errorf("error fetching owner: %w", err)
-		}
-
-		channel.Videos, err = db.GetVideosByChannel(channel.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error fetching videos: %w", err)
 		}
 
 		channels = append(channels, channel)
@@ -377,13 +358,14 @@ func (db *DB) DeleteChannel(channelID string) error {
 // GetVideoByID retrieves a video by ID
 func (db *DB) GetVideoByID(videoID string) (*models.Video, error) {
 	var video models.Video
+	var keywords []byte
 	err := db.QueryRowContext(context.Background(), "SELECT * FROM videos WHERE id = $1", videoID).Scan(
 		&video.ID,
 		&video.Status,
 		&video.Resources,
 		&video.Title,
 		&video.Description,
-		&video.Keywords,
+		&keywords,
 		&video.Category,
 		&video.PrivacyStatus,
 		&video.Channel.ID,
@@ -395,6 +377,11 @@ func (db *DB) GetVideoByID(videoID string) (*models.Video, error) {
 			return nil, ErrNotFound
 		}
 		return nil, fmt.Errorf("error fetching video: %w", err)
+	}
+
+	// Convert byte array to string array using pq.Array
+	if err := pq.Array(&video.Keywords).Scan(keywords); err != nil {
+		return nil, fmt.Errorf("error converting keywords array: %w", err)
 	}
 
 	// Fetch the channel data using the channel ID
@@ -430,13 +417,14 @@ func (db *DB) GetVideosByUser(userID string) ([]models.Video, error) {
 
 	for rows.Next() {
 		var video models.Video
+		var keywords []byte
 		if err := rows.Scan(
 			&video.ID,
 			&video.Status,
 			&video.Resources,
 			&video.Title,
 			&video.Description,
-			&video.Keywords,
+			&keywords,
 			&video.Category,
 			&video.PrivacyStatus,
 			&video.Channel.ID,
@@ -444,6 +432,11 @@ func (db *DB) GetVideosByUser(userID string) ([]models.Video, error) {
 			&video.UpdatedAt,
 		); err != nil {
 			return nil, fmt.Errorf("error scanning video: %w", err)
+		}
+
+		// Convert byte array to string array using pq.Array
+		if err := pq.Array(&video.Keywords).Scan(keywords); err != nil {
+			return nil, fmt.Errorf("error converting keywords array: %w", err)
 		}
 
 		// Fetch the channel data using the channel ID
@@ -486,13 +479,14 @@ func (db *DB) GetVideosByChannel(channelID string) ([]models.Video, error) {
 
 	for rows.Next() {
 		var video models.Video
+		var keywords []byte
 		if err := rows.Scan(
 			&video.ID,
 			&video.Status,
 			&video.Resources,
 			&video.Title,
 			&video.Description,
-			&video.Keywords,
+			&keywords,
 			&video.Category,
 			&video.PrivacyStatus,
 			&video.Channel.ID,
@@ -500,6 +494,11 @@ func (db *DB) GetVideosByChannel(channelID string) ([]models.Video, error) {
 			&video.UpdatedAt,
 		); err != nil {
 			return nil, fmt.Errorf("error scanning video: %w", err)
+		}
+
+		// Convert byte array to string array using pq.Array
+		if err := pq.Array(&video.Keywords).Scan(keywords); err != nil {
+			return nil, fmt.Errorf("error converting keywords array: %w", err)
 		}
 
 		// Fetch the channel data using the channel ID
@@ -534,17 +533,26 @@ func (db *DB) GetVideosByChannel(channelID string) ([]models.Video, error) {
 // CreateVideo creates a new video
 func (db *DB) CreateVideo(video *models.Video) (*models.Video, error) {
 	ctx := context.Background()
-	result, err := db.ExecContext(ctx, "INSERT INTO videos (status, resources, title, description, keywords, category, privacy_status, channel_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-		video.Status, video.Resources, video.Title, video.Description, video.Keywords, video.Category, video.PrivacyStatus, video.Channel.ID)
+
+	// Format keywords into a PostgreSQL array literal
+	keywords := "{}" // Default to an empty array literal
+	if len(video.Keywords) > 0 {
+		keywords = fmt.Sprintf("{'%s'}", strings.Join(video.Keywords, "','"))
+	}
+
+	video.ID = uuid.New().String()
+
+	// Use QueryRowContext and RETURNING to get the video ID
+	err := db.QueryRowContext(ctx, `
+		INSERT INTO videos (status, resources, title, description, keywords, category, privacy_status, channel_id) 
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		RETURNING id`,
+		video.Status, video.Resources, video.Title, video.Description, keywords, video.Category, video.PrivacyStatus, video.Channel.ID,
+	).Scan(&video.ID)
+
 	if err != nil {
 		return nil, fmt.Errorf("error creating video: %w", err)
 	}
-
-	videoID, err := result.LastInsertId()
-	if err != nil {
-		return nil, fmt.Errorf("error getting last insert ID: %w", err)
-	}
-	video.ID = fmt.Sprintf("%d", videoID)
 
 	// Assign editors to the video
 	for _, editor := range video.Editors {
@@ -554,7 +562,12 @@ func (db *DB) CreateVideo(video *models.Video) (*models.Video, error) {
 		}
 	}
 
-	return video, nil
+	// fecth the channel before returning
+	createdVideo, err := db.GetVideoByID(video.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching video: %w", err)
+	}
+	return createdVideo, nil
 }
 
 // UpdateVideo updates an existing video

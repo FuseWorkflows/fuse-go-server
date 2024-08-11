@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/FuseWorkflows/fuse-go-server/middleware"
@@ -26,6 +28,7 @@ func GetVideoHandler(db *database.DB) http.HandlerFunc {
 
 		videos, err := db.GetVideosByUser(userID)
 		if err != nil {
+			fmt.Println(err)
 			render.Status(r, http.StatusInternalServerError)
 			render.JSON(w, r, map[string]string{"error": "Failed to fetch videos"})
 			return
@@ -46,7 +49,7 @@ func CreateVideoHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		var video models.Video
-		if err := render.Bind(r, &video); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&video); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid video data"})
 			return
@@ -54,7 +57,9 @@ func CreateVideoHandler(db *database.DB) http.HandlerFunc {
 
 		// Ensure the user owns the channel
 		channel, err := db.GetChannelByID(video.Channel.ID)
+		fmt.Println("channel id" + video.Channel.ID)
 		if err != nil {
+			fmt.Println(err)
 			render.Status(r, http.StatusNotFound)
 			render.JSON(w, r, map[string]string{"error": "Channel not found"})
 			return
@@ -67,6 +72,7 @@ func CreateVideoHandler(db *database.DB) http.HandlerFunc {
 
 		createdVideo, err := db.CreateVideo(&video)
 		if err != nil {
+			fmt.Println(err)
 			render.Status(r, http.StatusInternalServerError)
 			render.JSON(w, r, map[string]string{"error": "Failed to create video"})
 			return
@@ -114,7 +120,7 @@ func UpdateVideoHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		var video models.Video
-		if err := render.Bind(r, &video); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&video); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid video data"})
 			return
@@ -214,7 +220,7 @@ func UploadVideoHandler(db *database.DB, cfg *config.Config) http.HandlerFunc {
 func GetAISuggestionsHandler(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var video models.Video
-		if err := render.Bind(r, &video); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&video); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid video data"})
 			return

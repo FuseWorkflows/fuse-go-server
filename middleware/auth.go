@@ -74,6 +74,8 @@ func Auth(db *database.DB, jwtKey string, excludedRoutes []string) func(http.Han
 					render.JSON(w, r, map[string]string{"error": "User not found"})
 					return
 				}
+				fmt.Println(err)
+				fmt.Println("user", userID)
 				render.Status(r, http.StatusInternalServerError)
 				render.JSON(w, r, map[string]string{"error": "Failed to fetch user"})
 				return

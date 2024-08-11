@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 
@@ -29,7 +30,7 @@ func GetEditorHandler(db *database.DB) http.HandlerFunc {
 func CreateEditorHandler(db *database.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var editor models.Editor
-		if err := render.Bind(r, &editor); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&editor); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid editor data"})
 			return
@@ -84,7 +85,7 @@ func UpdateEditorHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		var editor models.Editor
-		if err := render.Bind(r, &editor); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&editor); err != nil {
 			render.Status(r, http.StatusBadRequest)
 			render.JSON(w, r, map[string]string{"error": "Invalid editor data"})
 			return
