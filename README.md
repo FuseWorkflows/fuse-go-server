@@ -83,8 +83,12 @@ This project is a Golang backend for a platform designed to help YouTubers manag
 
 3. **Create a `.env` file:**
 
-   - Create a `.env` file in the project root directory.
-   - Add the following environment variables, replacing the placeholders with your actual values:
+   - Copy the provided .env.template file:
+   ```bash
+   cp .env.template .env
+   ```
+
+   - Open the .env file and replace the placeholder values with your actual configuration:
      ```
      DB_HOST=your_database_host
      DB_PORT=your_database_port
