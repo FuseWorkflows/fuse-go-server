@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/FuseWorkflows/fuse-go-server/models"
 	"github.com/google/uuid"
@@ -310,6 +311,10 @@ func (db *DB) UpdateChannel(channelID string, channel *models.Channel) (*models.
 		paramCounter++
 	}
 
+	query += fmt.Sprintf(" updated_at = $%d", paramCounter)
+	params = append(params, time.Now()) // Bind the current time
+	paramCounter++
+
 	// Remove trailing comma and add WHERE clause
 	query = strings.TrimSuffix(query, ",") + fmt.Sprintf(" WHERE id = $%d", paramCounter)
 	params = append(params, channelID)
@@ -537,7 +542,7 @@ func (db *DB) CreateVideo(video *models.Video) (*models.Video, error) {
 	// Format keywords into a PostgreSQL array literal
 	keywords := "{}" // Default to an empty array literal
 	if len(video.Keywords) > 0 {
-		keywords = fmt.Sprintf("{'%s'}", strings.Join(video.Keywords, "','"))
+		keywords = fmt.Sprintf("{%s}", strings.Join(video.Keywords, ", "))
 	}
 
 	video.ID = uuid.New().String()
@@ -573,8 +578,71 @@ func (db *DB) CreateVideo(video *models.Video) (*models.Video, error) {
 // UpdateVideo updates an existing video
 func (db *DB) UpdateVideo(videoID string, video *models.Video) (*models.Video, error) {
 	ctx := context.Background()
-	result, err := db.ExecContext(ctx, "UPDATE videos SET status = $1, resources = $2, title = $3, description = $4, keywords = $5, category = $6, privacy_status = $7, updated_at = NOW() WHERE id = $8",
-		video.Status, video.Resources, video.Title, video.Description, video.Keywords, video.Category, video.PrivacyStatus, videoID)
+	query := "UPDATE videos SET"
+	params := []interface{}{}
+	paramCounter := 1
+
+	// Dynamically add fields to the query if they are not empty
+	if video.Status != "" {
+		// Check if the status is valid
+		validStatus := false
+		for _, s := range []models.Status{models.Pending, models.Published, models.Draft} {
+			if video.Status == s {
+				validStatus = true
+				break
+			}
+		}
+
+		if validStatus {
+			query += fmt.Sprintf(" status = $%d,", paramCounter)
+			params = append(params, video.Status)
+			paramCounter++
+		} else {
+			return nil, fmt.Errorf("invalid video status: %s", video.Status)
+		}
+	}
+	if video.Resources != "" {
+		query += fmt.Sprintf(" resources = $%d,", paramCounter)
+		params = append(params, video.Resources)
+		paramCounter++
+	}
+	if video.Title != "" {
+		query += fmt.Sprintf(" title = $%d,", paramCounter)
+		params = append(params, video.Title)
+		paramCounter++
+	}
+	if video.Description != "" {
+		query += fmt.Sprintf(" description = $%d,", paramCounter)
+		params = append(params, video.Description)
+		paramCounter++
+	}
+	if len(video.Keywords) > 0 {
+		keywords := fmt.Sprintf("{%s}", strings.Join(video.Keywords, ", ")) // Remove single quotes
+		query += fmt.Sprintf(" keywords = $%d,", paramCounter)
+		params = append(params, keywords)
+		paramCounter++
+	}
+	if video.Category != "" {
+		query += fmt.Sprintf(" category = $%d,", paramCounter)
+		params = append(params, video.Category)
+		paramCounter++
+	}
+	if video.PrivacyStatus {
+		query += fmt.Sprintf(" privacy_status = $%d,", paramCounter)
+		params = append(params, video.PrivacyStatus)
+		paramCounter++
+	}
+
+	query += fmt.Sprintf(" updated_at = $%d", paramCounter)
+	params = append(params, time.Now()) // Bind the current time
+	paramCounter++
+
+	// Remove trailing comma and add WHERE clause
+	query = strings.TrimSuffix(query, ",") + fmt.Sprintf(" WHERE id = $%d", paramCounter)
+	params = append(params, videoID)
+
+	// Execute the query
+	result, err := db.ExecContext(ctx, query, params...)
 	if err != nil {
 		return nil, fmt.Errorf("error updating video: %w", err)
 	}
@@ -588,21 +656,38 @@ func (db *DB) UpdateVideo(videoID string, video *models.Video) (*models.Video, e
 	}
 
 	// Update editors assigned to the video
-	// First, delete existing associations
-	err = db.RemoveEditorsFromVideo(videoID)
+	// Get the current editors assigned to the video
+	currentEditors, err := db.GetEditorsByVideo(videoID)
 	if err != nil {
-		return nil, fmt.Errorf("error removing editors from video: %w", err)
+		return nil, fmt.Errorf("error fetching current editors: %w", err)
 	}
 
-	// Then, add new associations
-	for _, editor := range video.Editors {
-		_, err = db.AddEditorToVideo(video.ID, editor.ID)
-		if err != nil {
-			return nil, fmt.Errorf("error assigning editor to video: %w", err)
+	// Compare new editors with current editors
+	for _, newEditor := range video.Editors {
+		// Check if the new editor is already in the current editors list
+		found := false
+		for _, currentEditor := range currentEditors {
+			if newEditor.ID == currentEditor.ID {
+				found = true
+				break
+			}
+		}
+
+		// If the new editor is not found in the current list, add it
+		if !found {
+			_, err := db.AddEditorToVideo(videoID, newEditor.ID)
+			if err != nil {
+				return nil, fmt.Errorf("error assigning editor to video: %w", err)
+			}
 		}
 	}
 
-	return video, nil
+	// Fetch the updated video before returning
+	updatedVideo, err := db.GetVideoByID(videoID)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching video: %w", err)
+	}
+	return updatedVideo, nil
 }
 
 // DeleteVideo deletes an existing video
